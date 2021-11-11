@@ -89,7 +89,7 @@ public class rope : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	void LateUpdate()
     {
 		RenderRope();
     }
