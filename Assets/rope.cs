@@ -26,7 +26,7 @@ public class rope : MonoBehaviour
 		meshFilter.mesh = new Mesh(); ;
 		// scale length to fit real world scale
 		lengthToUse = length / transform.localScale.x;
-
+		
 		transform.parent.parent.LookAt(anchorGO.transform);
 
 		List<Vector3> newVerticesList = new List<Vector3>();
