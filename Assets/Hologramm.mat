@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hologramm
+  m_Shader: {fileID: -6465566751694194690, guid: 7955571881f01e74bb2f477dab1851ae, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_12a6d3f726c146718fe71a588ec91732:
+        m_Texture: {fileID: 2800000, guid: bbaa72f6acc051e41acfc85bfc144baf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_c0d14b02b9274594abb409ed9317f947: 0.2
+    m_Colors:
+    - Color_4e15375695694203b49aa6a3c62a8d22: {r: 0, g: 32, b: 8.785392, a: 0}
+    - Color_6092219436174748a3923763c0a88668: {r: 0.35294122, g: 0.7294485, b: 0.81960785, a: 0}
+    - Vector2_1190e3b983d84a0cb6fcfe2c990687bd: {r: 0.5, g: 8, b: 0, a: 0}
+  m_BuildTextureStacks: []
