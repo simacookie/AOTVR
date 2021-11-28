@@ -22,6 +22,8 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField]
     GameObject anchorRight;
     [SerializeField]
+    GameObject head;
+    [SerializeField]
     Cursor cursorLeft;
     [SerializeField]
     Cursor cursorRight;
@@ -53,6 +55,13 @@ public class CharacterMovement : MonoBehaviour
     float accelerationY = 0;
     [SerializeField]
     float accelerationZ = 0;
+    [SerializeField]
+    float gasDuration = 0.2f;
+    [SerializeField]
+    float gasCooldown = 1;
+    [SerializeField]
+    float gasStrength = 3;
+	bool gasInUse;
     float distanceTravelledRight;
     float distanceTravelledLeft;
     [SerializeField]
@@ -69,6 +78,7 @@ public class CharacterMovement : MonoBehaviour
 	public Vector3 cursorAcceleration;
 	public Vector3 leftRopeAcceleration;
 	public Vector3 rightRopeAcceleration;
+	public Vector3 gasAcceleration;
 	// Start is called before the first frame update
 	void Start()
     {
@@ -78,6 +88,7 @@ public class CharacterMovement : MonoBehaviour
 		AddAcceleration(cursorAcceleration);
 		AddAcceleration(leftRopeAcceleration);
 		AddAcceleration(rightRopeAcceleration);
+		AddAcceleration(gasAcceleration);
     }
 
     // Update is called once per frame
@@ -124,15 +135,20 @@ public class CharacterMovement : MonoBehaviour
 		{
 			MoveRightHook();
 		}
-		
-        if (ForwardPressRight.action.ReadValue<Vector2>().y > 0 || ForwardPressRight.action.ReadValue<Vector2>().y < 0)
+
+		      if (ForwardPressRight.action.ReadValue<Vector2>().y > 0 && !gasInUse)
 		{
-			AccelerateTowardsCursor();
+			StartCoroutine("Thrust");
 		}
-		else
-		{
-			UpdateAccelerationVec(0, new Vector3(0,0,0));
-		}
+
+		//if (ForwardPressRight.action.ReadValue<Vector2>().y > 0 || ForwardPressRight.action.ReadValue<Vector2>().y < 0)
+		//{
+		//	AccelerateTowardsCursor();
+		//	AccelerateTowardsCursor();
+		//}
+		//else {
+		//	UpdateAccelerationVec(0, new Vector3());
+		//}
 		if (leftHookState == HookState.connected)
 		{
 			AccelerateTowardsLeftHook();
@@ -150,6 +166,7 @@ public class CharacterMovement : MonoBehaviour
     }
 	private void LateUpdate()
 	{
+		
 		if (leftHookState == HookState.pulledIn) anchorLeft.transform.position = ropeSourceLeft.position;
 
 		if (rightHookState == HookState.pulledIn) anchorRight.transform.position = ropeSourceRight.position;
@@ -157,7 +174,15 @@ public class CharacterMovement : MonoBehaviour
 		lastPostition = transform.position;
 	}
 
-
+	IEnumerator Thrust()
+	{
+		AccelerateForwardAndUp();
+		gasInUse = true;
+		yield return new WaitForSeconds(gasDuration);
+		UpdateAccelerationVec(3, new Vector3(0, 0, 0));
+		yield return new WaitForSeconds(gasCooldown);
+		gasInUse = false;
+	}
 	private void AccelerateTowardsLeftHook()
 	{
 		Vector3 ropeSourceToCursorVec = currentTargetPointLeftAnchor - ropeSourceLeft.position;
@@ -176,10 +201,20 @@ public class CharacterMovement : MonoBehaviour
 
 	private void AccelerateTowardsCursor()
 	{
+		
 		cursorAcceleration.x = cursorRight.transform.forward.x * 0.25f;
 		cursorAcceleration.y = cursorRight.transform.forward.y * 0.25f;
 		cursorAcceleration.z = cursorRight.transform.forward.z * 0.25f;
 		UpdateAccelerationVec(0,cursorAcceleration);
+
+	}
+	private void AccelerateForwardAndUp()
+	{
+		Debug.Log("UP");
+		gasAcceleration.x = cursorRight.transform.forward.x * gasStrength;
+		gasAcceleration.y = cursorRight.transform.forward.y * gasStrength;
+		gasAcceleration.z = cursorRight.transform.forward.z * gasStrength;
+		UpdateAccelerationVec(3,gasAcceleration);
 
 	}
 
@@ -215,6 +250,7 @@ public class CharacterMovement : MonoBehaviour
 
 		rightHookState = HookState.isFlying;
 	}
+
 
 	private void MoveLeftHook()
 	{
