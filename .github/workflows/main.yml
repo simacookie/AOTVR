@@ -1,7 +1,10 @@
+# Built upon this: https://github.com/game-ci/unity-actions-example/blob/main/.github/workflows/main.yml
 name: Main-Build
 
 on:
   workflow_dispatch: {}
+  #schedule:
+    #- cron: "0 4 * * 0-6"    #creates a nightly-build
   #pull_request: {}
   #push: { branches: [main, master, develop] }
 
