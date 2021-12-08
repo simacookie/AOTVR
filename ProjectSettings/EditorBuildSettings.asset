@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Samples/OpenXR Plugin/1.2.8/Controller/ControllerSample.unity
+    guid: edb91e86bd8b7dc4ca40ad6c3167de73
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 209f7a2202562314fa9b38fecdb62101, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 14f641e4cdab6f44bbd858bd56098ae6, type: 2}
