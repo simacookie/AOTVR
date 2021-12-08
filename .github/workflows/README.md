@@ -1,4 +1,5 @@
 # CI with github-actions:
+[![Main-Build](https://github.com/BrunoBerger/AOTVR/actions/workflows/main.yml/badge.svg)](https://github.com/BrunoBerger/AOTVR/actions/workflows/main.yml)  
 For more information go to
 https://game.ci/docs/github/getting-started
 
