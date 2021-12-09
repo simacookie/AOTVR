@@ -52,7 +52,7 @@ jobs:
       matrix:
         targetPlatform:
           #- StandaloneOSX
-          #- StandaloneWindows
+          - StandaloneWindows
           - StandaloneWindows64
           #- StandaloneLinux64
           #- iOS
@@ -62,14 +62,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          lfs: true
+          lfs: false
       - uses: actions/cache@v2.1.3
         with:
-          path: ${{ matrix.projectPath }}/Library
-          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
-          restore-keys: |
-            Library-${{ matrix.projectPath }}-
-            Library-
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}
+          restore-keys: Library-
       # https://github.com/game-ci/unity-builder/releases/
       - uses: game-ci/unity-builder@v2.0-alpha-6
         with:
