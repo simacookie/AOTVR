@@ -1,5 +1,5 @@
 # CI with github-actions:
-[![Builds](https://github.com/BrunoBerger/AOTVR/actions/workflows/build.yml/badge.svg)](https://github.com/BrunoBerger/AOTVR/actions/workflows/build.yml)  
+[![Build all platforms](https://github.com/BrunoBerger/AOTVR/actions/workflows/build.yml/badge.svg)](https://github.com/BrunoBerger/AOTVR/actions/workflows/build.yml)  
 For more information go to
 https://game.ci/docs/github/getting-started
 
@@ -19,7 +19,7 @@ named `UNITY_LICENSE` and past the content of the license-file as the value
 
 - make sure you include the scenes you want in the build-settings in Unity
 - For now the action has to be triggered manually,
-but it can also be triggered on events in the repo or by a schedule
-([more info here](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions))
+but it can also be triggered on events in the repo or weekly/monthly
+(more info in build.yml or [here](https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions))
 - The game can also be build for different platform at the same time,
 simply uncomment the one you need in `build.yml`
