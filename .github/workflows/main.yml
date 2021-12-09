@@ -52,7 +52,7 @@ jobs:
       matrix:
         targetPlatform:
           #- StandaloneOSX
-          - StandaloneWindows
+          #- StandaloneWindows
           - StandaloneWindows64
           #- StandaloneLinux64
           #- iOS
