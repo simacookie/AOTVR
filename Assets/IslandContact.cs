@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class IslandContact : MonoBehaviour
 {
-    public bool artFest;
-    public bool artTimer;
+    public bool bruch;
+    public bool timer;
+    public bool hookcount;
 
-    public IslandFall jetztDran;
-    public InselArt art;
-    public InselTimer timer;
+    public float secondsToFall;
+    public int hooksToFall;
+    public int actualHooks = 0;
+
+    public GameObject inselStandard;
+    public GameObject inselBruch;
 
     // Start is called before the first frame update
     void Start()
@@ -26,32 +30,37 @@ public class IslandContact : MonoBehaviour
     // Bei Kontakt mit Insel
     public void OnTriggerEnter(Collider other)
     {
-        // Konsistenz der Insel nach Kontakt ist Fest
-        if (art == InselArt.fest)
+        // Hat einen Timer
+        if (timer == true)
         {
-            artFest = true;
-                if (timer == InselTimer.timer)
-                {
-                    artTimer = true;
-                }
-                if (timer == InselTimer.noneTimer)
-                {
-                    artTimer = false;
-                }
+            StartCoroutine(ExampleCoroutine());
         }
-        // Konsistenz der Insel nach Kontakt ist Bruch
-        if (art == InselArt.bruch)
+        // Hat einen Hookcount
+        if (hookcount == true)
         {
-            artFest = false;
-                if (timer == InselTimer.timer)
-                {
-                    artTimer = true;
-                }
-                if (timer == InselTimer.noneTimer)
-                {
-                    artTimer = false;
-                }
+            HookZaehler();
         }
-        jetztDran.fallen();
+    }
+
+    // Timermethode
+    IEnumerator ExampleCoroutine()
+    {
+        yield return new WaitForSeconds(secondsToFall);
+        inselBruch.SetActive(true);
+        inselStandard.SetActive(false);
+    }
+
+    // Hookmethode
+    void HookZaehler()
+    {
+        if(actualHooks >= hooksToFall)
+        {
+            inselBruch.SetActive(true);
+            inselStandard.SetActive(false);
+        }
+        else
+        {
+            actualHooks++;
+        }
     }
 }
