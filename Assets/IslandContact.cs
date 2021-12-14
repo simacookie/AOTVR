@@ -28,17 +28,20 @@ public class IslandContact : MonoBehaviour
     }
 
     // Bei Kontakt mit Insel
-    public void OnTriggerEnter(Collider other)
+    public void OnCollisionEnter(Collision collision)
     {
-        // Hat einen Timer
-        if (timer == true)
-        {
-            StartCoroutine(ExampleCoroutine());
-        }
-        // Hat einen Hookcount
-        if (hookcount == true)
-        {
-            HookZaehler();
+
+        if(collision.gameObject.tag == "grapple") {
+            // Hat einen Timer
+            if (timer == true)
+            {
+                StartCoroutine(ExampleCoroutine());
+            }
+            // Hat einen Hookcount
+            if (hookcount == true)
+            {
+                HookZaehler();
+            }
         }
     }
 
