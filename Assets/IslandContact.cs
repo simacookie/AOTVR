@@ -15,6 +15,10 @@ public class IslandContact : MonoBehaviour
     public GameObject inselStandard;
     public GameObject inselBruch;
 
+    public CharacterMovement characterMovement;
+    public HookState oldLeftHookState = HookState.pulledIn;
+    public HookState oldRightHookState = HookState.pulledIn;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,14 +28,8 @@ public class IslandContact : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    // Bei Kontakt mit Insel
-    public void OnCollisionEnter(Collision collision)
-    {
-
-        if(collision.gameObject.tag == "grapple") {
+        if (oldLeftHookState != characterMovement.leftHookState && characterMovement.leftHookState == HookState.connected) 
+        {
             // Hat einen Timer
             if (timer == true)
             {
@@ -42,6 +40,16 @@ public class IslandContact : MonoBehaviour
             {
                 HookZaehler();
             }
+        }
+        oldLeftHookState = characterMovement.leftHookState;
+        oldRightHookState = characterMovement.rightHookState;
+    }
+
+    // Bei Kontakt mit Insel
+    public void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "grapple") {
+            
         }
     }
 
