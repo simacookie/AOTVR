@@ -38,8 +38,8 @@ public class CharacterMovement : MonoBehaviour
     private bool rightAnchorFlying = false;
     private bool leftCursorAvailable = false;
     private bool rightCursorAvailable = false;
-    private HookState leftHookState = HookState.pulledIn; 
-    private HookState rightHookState = HookState.pulledIn;
+    public HookState leftHookState = HookState.pulledIn; 
+    public HookState rightHookState = HookState.pulledIn;
 	private List<Vector3> accelerationVecs = new List<Vector3>()
 	{
 	};
