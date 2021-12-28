@@ -79,6 +79,11 @@ public class CharacterMovement : MonoBehaviour
 	public Vector3 leftRopeAcceleration;
 	public Vector3 rightRopeAcceleration;
 	public Vector3 gasAcceleration;
+
+	private AudioSource movementAudio;
+	public float speedToMakeSound = 3f;
+	public float speedMag = 0;
+	public Vector3 accellerationLastFrame = new Vector3();
 	// Start is called before the first frame update
 	void Start()
     {
@@ -89,6 +94,8 @@ public class CharacterMovement : MonoBehaviour
 		AddAcceleration(leftRopeAcceleration);
 		AddAcceleration(rightRopeAcceleration);
 		AddAcceleration(gasAcceleration);
+
+		movementAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -162,6 +169,25 @@ public class CharacterMovement : MonoBehaviour
 		//Movement
 		Vector3 movementVec = new Vector3(speedX, speedY, speedZ);
         CollisionFlags flag =  characterController.Move(movementVec * Time.deltaTime);
+
+		//Sound
+		Vector3 acceleration = new Vector3(accelerationX, accelerationY, accelerationZ);
+		if (movementVec.sqrMagnitude > speedToMakeSound)
+        {
+			movementAudio.volume = MathMap.Map(speedMag, speedToMakeSound, speedToMakeSound + 1000f, 0.5f,1f, true);
+			if (acceleration.magnitude >= accellerationLastFrame.magnitude && movementAudio.pitch <= 1.5f)
+			{
+				movementAudio.pitch += 0.05f;
+			}
+			else if (acceleration.magnitude <= accellerationLastFrame.magnitude && movementAudio.pitch >= 0.5f)
+            {
+				movementAudio.pitch -= 0.05f;
+            }
+        } else if(movementVec.sqrMagnitude < speedToMakeSound)
+        {
+			movementAudio.volume = 0;
+			movementAudio.pitch = 1f;
+        }
 		
     }
 	private void LateUpdate()
