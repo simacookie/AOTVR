@@ -2593,6 +2593,7 @@ MonoBehaviour:
   triggerPressLeft: {fileID: 6986180202050166755, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
   triggerPressRight: {fileID: 6454596279149084813, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
   ForwardPressRight: {fileID: 3396702884570900202, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
+  joystickLeft: {fileID: 7596212294181904713, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
   triggerAxisLeft: {fileID: 2526168894431210536, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
   triggerAxisRight: {fileID: -5684558904543120851, guid: e0ca4504471ca124088e1e2cfe6804ae, type: 3}
   anchorLeft: {fileID: 1454795430989023725}
@@ -2610,6 +2611,7 @@ MonoBehaviour:
   accelerationZ: 0
   gasDuration: 0.3
   gasCooldown: 1
+  turnDegrees: 1
   gasStrength: 1
   ropePullStrength: 0.4
   lastPostition: {x: 0, y: 0, z: 0}

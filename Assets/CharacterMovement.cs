@@ -13,6 +13,7 @@ public class CharacterMovement : MonoBehaviour
     public InputActionReference triggerPressLeft;
     public InputActionReference triggerPressRight;
     public InputActionReference ForwardPressRight;
+    public InputActionReference joystickLeft;
     public InputActionReference triggerAxisLeft;
     public InputActionReference triggerAxisRight;
     Vector3 currentTargetPointRightAnchor;
@@ -60,8 +61,13 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField]
     float gasCooldown = 1;
     [SerializeField]
+    float turnDegrees = 30;
+
+    [SerializeField]
     float gasStrength = 3;
 	bool gasInUse;
+	bool leftUsed;
+	bool rightUsed;
     float distanceTravelledRight;
     float distanceTravelledLeft;
     [SerializeField]
@@ -116,7 +122,7 @@ public class CharacterMovement : MonoBehaviour
         float valueRight = triggerPressRight.action.ReadValue<float>();
         if (valueRight > 0.5)
 		{
-			if (!triggerRightPressed && cursorLeft.hitting)
+			if (!triggerRightPressed && cursorRight.hitting)
 				StartRightHookThrow();
 			triggerRightPressed = true;
         }
@@ -143,9 +149,29 @@ public class CharacterMovement : MonoBehaviour
 			MoveRightHook();
 		}
 
-		      if (ForwardPressRight.action.ReadValue<Vector2>().y > 0 && !gasInUse)
+		if (ForwardPressRight.action.ReadValue<Vector2>().y > 0 && !gasInUse)
 		{
 			StartCoroutine("Thrust");
+		}
+
+		//turn snapping
+		if (joystickLeft.action.ReadValue<Vector2>().x > -0.1f)
+		{
+			leftUsed = false;
+		}
+		if (joystickLeft.action.ReadValue<Vector2>().x < 0.1f)
+		{
+			rightUsed = false;
+		}
+		if (joystickLeft.action.ReadValue<Vector2>().x < -0.1f && !leftUsed)
+		{
+			leftUsed = true;
+			transform.eulerAngles = transform.eulerAngles + new Vector3(0,-turnDegrees*30,0);
+		}
+		if (joystickLeft.action.ReadValue<Vector2>().x > 0.1f && !rightUsed)
+		{
+			rightUsed = true;
+			transform.eulerAngles = transform.eulerAngles + new Vector3(0,turnDegrees*30, 0);
 		}
 
 		//if (ForwardPressRight.action.ReadValue<Vector2>().y > 0 || ForwardPressRight.action.ReadValue<Vector2>().y < 0)
