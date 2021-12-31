@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - grapple
+  - interactable
+  - fragezeichen
+  - pfeil1
+  - pfeil2
+  - pfeil3
+  - pfeil4
   layers:
   - Default
   - TransparentFX

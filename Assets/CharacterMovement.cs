@@ -73,6 +73,32 @@ public class CharacterMovement : MonoBehaviour
 	[SerializeField]
 	float ropeSpeedRight;
 
+	[SerializeField]
+	GameObject seule;
+	Interaction script;
+	GameObject drehobject;
+	GameObject auswahl;
+	double frameCount = 0;
+	[SerializeField]
+	GameObject Pfeil1;
+	[SerializeField]
+	GameObject Pfeil2;
+	[SerializeField]
+	GameObject Pfeil3;
+	[SerializeField]
+	GameObject Pfeil4;
+	Vector3 objectScaleAlt1;
+	bool Pfeil1AmPlatz = true;
+	Vector3 objectScaleAlt2;
+	bool Pfeil2AmPlatz = true;
+	Vector3 objectScaleAlt3;
+	bool Pfeil3AmPlatz = true;
+	Vector3 objectScaleAlt4;
+	bool Pfeil4AmPlatz = true;
+
+
+
+
 	float lastRopeLengthLeft;
 	float lastRopeLengthRight;
 	public Vector3 cursorAcceleration;
@@ -91,79 +117,309 @@ public class CharacterMovement : MonoBehaviour
 		AddAcceleration(gasAcceleration);
     }
 
-    // Update is called once per frame
-    private void Update()
-    {
-
-
-		//Inputs
-
-		float valueleft = triggerPressLeft.action.ReadValue<float>();
-        if (valueleft > 0.5 )
+	// Update is called once per frame
+	private void Update()
+	{
+		script = seule.GetComponent<Interaction>();
+		if (script.isinZone()== false)
 		{
-			if(!triggerLeftPressed && cursorLeft.hitting)
-				StartLeftHookThrow();
-			triggerLeftPressed = true;
-        }
-        else triggerLeftPressed = false;      
-        float valueRight = triggerPressRight.action.ReadValue<float>();
-        if (valueRight > 0.5)
-		{
-			if (!triggerRightPressed && cursorLeft.hitting)
-				StartRightHookThrow();
-			triggerRightPressed = true;
-        }
-        else triggerRightPressed = false;      
-        
-        if (leftHookState == HookState.connected && triggerAxisLeft.action.ReadValue<float>() < 0.9f)
+			//Inputs
+
+			float valueleft = triggerPressLeft.action.ReadValue<float>();
+			if (valueleft > 0.5)
+			{
+				if (!triggerLeftPressed && cursorLeft.hitting)
+					StartLeftHookThrow();
+				triggerLeftPressed = true;
+			}
+			else triggerLeftPressed = false;
+			float valueRight = triggerPressRight.action.ReadValue<float>();
+			if (valueRight > 0.5)
+			{
+				if (!triggerRightPressed && cursorLeft.hitting)
+					StartRightHookThrow();
+				triggerRightPressed = true;
+			}
+			else triggerRightPressed = false;
+
+			if (leftHookState == HookState.connected && triggerAxisLeft.action.ReadValue<float>() < 0.9f)
+			{
+				DisconnectLeftHook();
+				UpdateAccelerationVec(1, new Vector3(0, 0, 0));
+			}
+			if (rightHookState == HookState.connected && triggerAxisRight.action.ReadValue<float>() < 0.9f)
+			{
+				DisconnectRightHook();
+				UpdateAccelerationVec(2, new Vector3(0, 0, 0));
+			}
+
+
+			if (leftHookState == HookState.isFlying)
+			{
+				MoveLeftHook();
+			}
+			if (rightHookState == HookState.isFlying)
+			{
+				MoveRightHook();
+			}
+
+			if (ForwardPressRight.action.ReadValue<Vector2>().y > 0 && !gasInUse)
+			{
+				StartCoroutine("Thrust");
+			}
+
+			//if (ForwardPressRight.action.ReadValue<Vector2>().y > 0 || ForwardPressRight.action.ReadValue<Vector2>().y < 0)
+			//{
+			//	AccelerateTowardsCursor();
+			//	AccelerateTowardsCursor();
+			//}
+			//else {
+			//	UpdateAccelerationVec(0, new Vector3());
+			//}
+			if (leftHookState == HookState.connected)
+			{
+				AccelerateTowardsLeftHook();
+			}
+			if (rightHookState == HookState.connected)
+			{
+				AccelerateTowardsRightHook();
+			}
+
+
+			//Movement
+			Vector3 movementVec = new Vector3(speedX, speedY, speedZ);
+			CollisionFlags flag = characterController.Move(movementVec * Time.deltaTime);
+
+		}
+		else
         {
-			DisconnectLeftHook();
-			UpdateAccelerationVec(1, new Vector3(0, 0, 0));
-		}
-        if (rightHookState == HookState.connected && triggerAxisRight.action.ReadValue<float>() < 0.9f)
-        {
-			DisconnectRightHook();
-			UpdateAccelerationVec(2, new Vector3(0, 0, 0));
-		}
-        
+			if (cursorLeft.hitting  )
+            {
+				drehobject = cursorLeft.hit.collider.gameObject;
 
-        if (leftHookState == HookState.isFlying)
-		{
-			MoveLeftHook();
-		}
-		if (rightHookState == HookState.isFlying)
-		{
-			MoveRightHook();
-		}
+				switch (drehobject.tag)
+				{
+					case "fragezeichen":
+						drehobject.transform.Rotate(Vector3.up * Time.deltaTime * 35);
+						break;
+					case "pfeil1":
+						// Gets the local scale of game object
+                        Vector3 objectScale1 = Pfeil1.transform.localScale;
+                        //try
+                       // {
+							if (objectScale1!= objectScaleAlt1 && objectScaleAlt1!= new Vector3())
+                            {
+								// Sets the local scale of game object back to normal
+								Pfeil1.transform.Translate(0, 0, 0.3f);
+								Pfeil1.transform.localScale = new Vector3(objectScale1.x / 1.5f, objectScale1.y / 1.5f, objectScale1.z / 1.5f);
+								Pfeil1AmPlatz = true;
+								Debug.Log("zurücksetzen");
+							}
+                            else
+                            {
+								objectScaleAlt1 = Pfeil1.transform.localScale;
+								Pfeil1.transform.Translate(0, 0, -0.3f);
+								// Sets the local scale of game object
+								Pfeil1.transform.localScale = new Vector3(objectScale1.x * 1.5f, objectScale1.y * 1.5f, objectScale1.z * 1.5f);
+								Pfeil1AmPlatz = false;
+								Debug.Log("scalieren");
 
-		      if (ForwardPressRight.action.ReadValue<Vector2>().y > 0 && !gasInUse)
-		{
-			StartCoroutine("Thrust");
-		}
+								if (Pfeil2AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil2.transform.localScale;
+									Pfeil2.transform.Translate(0, 0, 0.3f);
+									Pfeil2.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil2AmPlatz = true;
+								}
+								else if (Pfeil3AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil3.transform.localScale;
+									Pfeil3.transform.Translate(0, 0, 0.3f);
+									Pfeil3.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil3AmPlatz = true;
+								}
+								else if (Pfeil4AmPlatz== false){
+									Vector3 objectScaleAndere = Pfeil4.transform.localScale;
+									Pfeil4.transform.Translate(0, 0, 0.3f);
+									Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil4AmPlatz = true;
+								}
+							}
+								
+						/*}
+						 catch (UnassignedReferenceException ex)
+				{
+							objectScaleAlt = drehobject.transform.localScale;
+							Debug.Log("gesetzt");
 
-		//if (ForwardPressRight.action.ReadValue<Vector2>().y > 0 || ForwardPressRight.action.ReadValue<Vector2>().y < 0)
-		//{
-		//	AccelerateTowardsCursor();
-		//	AccelerateTowardsCursor();
-		//}
-		//else {
-		//	UpdateAccelerationVec(0, new Vector3());
-		//}
-		if (leftHookState == HookState.connected)
-		{
-			AccelerateTowardsLeftHook();
-		}
-		if (rightHookState == HookState.connected)
-		{
-			AccelerateTowardsRightHook();
-		}
+						}**/
+						break;
+					
+					case "pfeil2":
+
+						Vector3 objectScale2 = Pfeil2.transform.localScale;
+						if (objectScale2 != objectScaleAlt2 && objectScaleAlt2 != new Vector3())
+						{
+							// Sets the local scale of game object back to normal
+							Pfeil2.transform.Translate(0, 0, 0.3f);
+							Pfeil2.transform.localScale = new Vector3(objectScale2.x / 1.5f, objectScale2.y / 1.5f, objectScale2.z / 1.5f);
+							Pfeil2AmPlatz = true;
+
+						}
+						else
+						{
+							objectScaleAlt2 = Pfeil2.transform.localScale;
+							Pfeil2.transform.Translate(0, 0, -0.3f);
+							// Sets the local scale of game object
+							Pfeil2.transform.localScale = new Vector3(objectScale2.x * 1.5f, objectScale2.y * 1.5f, objectScale2.z * 1.5f);
+							Pfeil2AmPlatz = false;
+
+							if (Pfeil1AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil1.transform.localScale;
+								Pfeil1.transform.Translate(0, 0, 0.3f);
+								Pfeil1.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil1AmPlatz = true;
+							}
+							else if (Pfeil3AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil3.transform.localScale;
+								Pfeil3.transform.Translate(0, 0, 0.3f);
+								Pfeil3.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil3AmPlatz = true;
+							}
+							else if (Pfeil4AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil4.transform.localScale;
+								Pfeil4.transform.Translate(0, 0, 0.3f);
+								Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil4AmPlatz = true;
+							}
+						}
+						break;
+
+					case "pfeil3":
+
+						Vector3 objectScale3 = Pfeil3.transform.localScale;
+						if (objectScale3 != objectScaleAlt3 && objectScaleAlt3 != new Vector3())
+						{
+							// Sets the local scale of game object back to normal
+							Pfeil3.transform.Translate(0, 0, 0.3f);
+							Pfeil3.transform.localScale = new Vector3(objectScale3.x / 1.5f, objectScale3.y / 1.5f, objectScale3.z / 1.5f);
+							Pfeil3AmPlatz = true;
+
+						}
+						else
+						{
+							objectScaleAlt3 = Pfeil3.transform.localScale;
+							Pfeil3.transform.Translate(0, 0, -0.3f);
+							// Sets the local scale of game object
+							Pfeil3.transform.localScale = new Vector3(objectScale3.x * 1.5f, objectScale3.y * 1.5f, objectScale3.z * 1.5f);
+							Pfeil3AmPlatz = false;
+
+							if (Pfeil1AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil1.transform.localScale;
+								Pfeil1.transform.Translate(0, 0, 0.3f);
+								Pfeil1.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil1AmPlatz = true;
+							}
+							else if (Pfeil2AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil2.transform.localScale;
+								Pfeil2.transform.Translate(0, 0, 0.3f);
+								Pfeil2.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil2AmPlatz = true;
+							}
+							else if (Pfeil4AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil4.transform.localScale;
+								Pfeil4.transform.Translate(0, 0, 0.3f);
+								Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil4AmPlatz = true;
+							}
+						}
+						break;
+
+					case "pfeil4":
+
+						Vector3 objectScale4 = Pfeil4.transform.localScale;
+						if (objectScale4 != objectScaleAlt4 && objectScaleAlt4 != new Vector3())
+						{
+							// Sets the local scale of game object back to normal
+							Pfeil4.transform.Translate(0, 0, 0.3f);
+							Pfeil4.transform.localScale = new Vector3(objectScale4.x / 1.5f, objectScale4.y / 1.5f, objectScale4.z / 1.5f);
+							Pfeil4AmPlatz = true;
+						}
+						else
+						{
+							objectScaleAlt4 = Pfeil4.transform.localScale;
+							Pfeil4.transform.Translate(0, 0, -0.3f);
+							// Sets the local scale of game object
+							Pfeil4.transform.localScale = new Vector3(objectScale4.x * 1.5f, objectScale4.y * 1.5f, objectScale4.z * 1.5f);
+							Pfeil4AmPlatz = false;
+
+							if (Pfeil1AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil1.transform.localScale;
+								Pfeil1.transform.Translate(0, 0, 0.3f);
+								Pfeil1.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil1AmPlatz = true;
+							}
+							else if (Pfeil2AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil2.transform.localScale;
+								Pfeil2.transform.Translate(0, 0, 0.3f);
+								Pfeil2.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil2AmPlatz = true;
+							}
+
+							else if (Pfeil3AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil3.transform.localScale;
+								Pfeil3.transform.Translate(0, 0, 0.3f);
+								Pfeil3.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil3AmPlatz = true;
+							}
+							
+						}
+						break;
+				}
+						/*
+												if (cursorLeft.hit.collider.gameObject.tag == "fragezeichen")
+										{
+											drehobject = cursorLeft.hit.collider.gameObject;
+											//drehobject.transform.Rotate(0,10*Time.deltaTime,0,Space.World);
+											drehobject.transform.Rotate(Vector3.up * Time.deltaTime * 35);
+										}
+										else if (cursorLeft.hit.collider.gameObject.tag == "interactable")
+										{
+
+											if (frameCount%4)
+												//Pfeil1.transform.localScale += new Vector3(1f, 1f, 1f);
 
 
-		//Movement
-		Vector3 movementVec = new Vector3(speedX, speedY, speedZ);
-        CollisionFlags flag =  characterController.Move(movementVec * Time.deltaTime);
-		
-    }
+											//Pfeil3.transform.Translate(0, 0, -5f);
+
+
+
+											// cursorLeft.hit.collider.gameObject;
+											Debug.Log("Hit Left");
+										}
+								   **/
+				}
+			else if (cursorRight.hitting )
+			{
+				if (cursorRight.hit.collider.gameObject.tag == "interactable")
+				{
+					//cursorRight.hit.collider.gameObject;
+					Debug.Log("Hit Right");
+				}
+			}
+
+		}
+		frameCount++;
+	}
 	private void LateUpdate()
 	{
 		
