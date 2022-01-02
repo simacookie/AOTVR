@@ -146,6 +146,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   hitting: 0
+  currentAnchorGameObject: {fileID: 0}
 --- !u!1 &680985303636351595
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,6 +487,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   hitting: 0
+  currentAnchorGameObject: {fileID: 0}
 --- !u!1 &2841773522881661684
 GameObject:
   m_ObjectHideFlags: 0
@@ -2586,6 +2588,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf078ea9e86af134f942bed41004a5de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftController: {fileID: 7519415168324537414}
+  rightController: {fileID: 7519415170124592765}
   anchorSpeed: 40
   gripRight: {fileID: 7519415169072850016}
   ropeSourceRight: {fileID: 6530654135947398522}
@@ -2624,6 +2628,14 @@ MonoBehaviour:
   speedToMakeSound: 5
   speedMag: 0
   accellerationLastFrame: {x: 0, y: 0, z: 0}
+  currentLeftGameObject: {fileID: 0}
+  currentRightGameObject: {fileID: 0}
+  leftHookConnected:
+    m_PersistentCalls:
+      m_Calls: []
+  rightHookConnected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &7519415168392789156
 Rigidbody:
   m_ObjectHideFlags: 0

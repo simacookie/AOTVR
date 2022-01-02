@@ -7,7 +7,10 @@ using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
 {
+	public GameObject leftController;
+	public GameObject rightController;
     public float anchorSpeed;
+    public float walkspeed = 1;
     public GameObject gripRight;
     public Transform ropeSourceRight;
     public Transform ropeSourceLeft;
@@ -159,10 +162,10 @@ public class CharacterMovement : MonoBehaviour
 			MoveRightHook();
 		}
 
-		if (ForwardPressRight.action.ReadValue<Vector2>().y > 0 && !gasInUse)
-		{
-			StartCoroutine("Thrust");
-		}
+		//if (ForwardPressRight.action.ReadValue<Vector2>().y > 0 && !gasInUse)
+		//{
+		//	StartCoroutine("Thrust");
+		//}
 
 		//turn snapping
 		if (joystickLeft.action.ReadValue<Vector2>().x > -0.1f)
@@ -201,10 +204,29 @@ public class CharacterMovement : MonoBehaviour
 			AccelerateTowardsRightHook();
 		}
 
-
+		double GetHeading(Vector2 a, Vector2 b)
+		{
+			double x = b.x - -a.x;
+			double y = b.y - a.y;
+			return Math.Atan2(y, x) * (180 / Math.PI);
+		}
 		//Movement
 		Vector3 movementVec = new Vector3(speedX, speedY, speedZ);
-        CollisionFlags flag =  characterController.Move(movementVec * Time.deltaTime);
+		if (characterController.isGrounded && ForwardPressRight.action.ReadValue<Vector2>().magnitude > 0.2f)
+		{
+			Vector3 walkVec = ForwardPressRight.action.ReadValue<Vector2>();
+			//float currentStickRotationInDegrees = (float)Math.Atan2(1 - walkVec.y, 0 - -walkVec.x);
+			//currentStickRotationInDegrees = 2*(float)(180 / Math.PI) * currentStickRotationInDegrees;
+			float currentStickRotationInDegrees = 2 * (float)GetHeading(walkVec.normalized, new Vector2(0, 1));
+			Debug.Log(currentStickRotationInDegrees);
+
+			Vector3 t = Quaternion.Euler(0, currentStickRotationInDegrees, 0) * rightController.transform.forward;
+			float walkVecMagnitude = walkVec.magnitude * walkspeed;
+			t.Scale(new Vector3(walkVecMagnitude, walkVecMagnitude, walkVecMagnitude));
+			movementVec += new Vector3(t.x,0,t.z);
+
+		}
+		CollisionFlags flag =  characterController.Move(movementVec * Time.deltaTime);
 
 		//Sound
 		Vector3 acceleration = new Vector3(accelerationX, accelerationY, accelerationZ);
@@ -272,7 +294,6 @@ public class CharacterMovement : MonoBehaviour
 	}
 	private void AccelerateForwardAndUp()
 	{
-		Debug.Log("UP");
 		gasAcceleration.x = cursorRight.transform.forward.x * gasStrength;
 		gasAcceleration.y = cursorRight.transform.forward.y * gasStrength;
 		gasAcceleration.z = cursorRight.transform.forward.z * gasStrength;
