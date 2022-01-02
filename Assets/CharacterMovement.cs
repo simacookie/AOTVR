@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class CharacterMovement : MonoBehaviour
@@ -90,6 +91,11 @@ public class CharacterMovement : MonoBehaviour
 	public float speedToMakeSound = 3f;
 	public float speedMag = 0;
 	public Vector3 accellerationLastFrame = new Vector3();
+
+	public GameObject currentLeftGameObject;
+	public GameObject currentRightGameObject;
+	public UnityEvent<GameObject> leftHookConnected = new UnityEvent<GameObject>();
+	public UnityEvent<GameObject> rightHookConnected = new UnityEvent<GameObject>();
 	// Start is called before the first frame update
 	void Start()
     {
@@ -114,8 +120,10 @@ public class CharacterMovement : MonoBehaviour
 		float valueleft = triggerPressLeft.action.ReadValue<float>();
         if (valueleft > 0.5 )
 		{
-			if(!triggerLeftPressed && cursorLeft.hitting)
+			if (!triggerLeftPressed && cursorLeft.hitting)
+			{
 				StartLeftHookThrow();
+			}
 			triggerLeftPressed = true;
         }
         else triggerLeftPressed = false;      
@@ -123,7 +131,9 @@ public class CharacterMovement : MonoBehaviour
         if (valueRight > 0.5)
 		{
 			if (!triggerRightPressed && cursorRight.hitting)
+			{
 				StartRightHookThrow();
+			}
 			triggerRightPressed = true;
         }
         else triggerRightPressed = false;      
@@ -272,6 +282,8 @@ public class CharacterMovement : MonoBehaviour
 
 	private void StartLeftHookThrow()
 	{
+		currentLeftGameObject = cursorLeft.currentAnchorGameObject;
+
 		//anchorleft.transform.position = new Vector3(cursorleft.hit.point.x, cursorleft.hit.point.y, cursorleft.hit.point.z);
 		currentTargetPointLeftAnchor = new Vector3(cursorLeft.hit.point.x, cursorLeft.hit.point.y, cursorLeft.hit.point.z);
 		anchorLeft.transform.position = ropeSourceLeft.position;
@@ -282,12 +294,16 @@ public class CharacterMovement : MonoBehaviour
 
 	private void DisconnectLeftHook()
 	{
+		currentLeftGameObject = null;
+
 		anchorLeft.transform.position = ropeSourceLeft.position;
 		distanceTravelledLeft = 0;
 		leftHookState = HookState.pulledIn;
 	}
 	private void DisconnectRightHook()
 	{
+		currentRightGameObject = null;
+
 		anchorRight.transform.position = ropeSourceRight.position;
 		distanceTravelledRight = 0;
 		rightHookState = HookState.pulledIn;
@@ -295,6 +311,8 @@ public class CharacterMovement : MonoBehaviour
 
 	private void StartRightHookThrow()
 	{
+		currentRightGameObject = cursorRight.currentAnchorGameObject;
+
 		//anchorRight.transform.position = new Vector3(cursorRight.hit.point.x, cursorRight.hit.point.y, cursorRight.hit.point.z);
 		currentTargetPointRightAnchor = new Vector3(cursorRight.hit.point.x, cursorRight.hit.point.y, cursorRight.hit.point.z);
 		anchorRight.transform.position = ropeSourceRight.position;
@@ -321,6 +339,7 @@ public class CharacterMovement : MonoBehaviour
 		{
 			anchorLeft.transform.position = currentTargetPointLeftAnchor;
 			leftHookState = HookState.connected;
+			leftHookConnected.Invoke(currentLeftGameObject);
 			distanceTravelledLeft = 0;
 		}
 	}
@@ -343,6 +362,8 @@ public class CharacterMovement : MonoBehaviour
 
 			anchorRight.transform.position = currentTargetPointRightAnchor;
 			rightHookState = HookState.connected;
+			rightHookConnected.Invoke(currentRightGameObject);
+
 			distanceTravelledRight = 0;
 		}
 	}
