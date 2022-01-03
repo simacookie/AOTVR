@@ -14,7 +14,6 @@ public class Cursor : MonoBehaviour
     [SerializeField]
     LayerMask layerMask;
     public bool hitting;
-    public GameObject currentAnchorGameObject;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,13 +44,12 @@ public class Cursor : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, layerMask))
         {
             hitting = true;
-            currentAnchorGameObject = hit.transform.gameObject;
             cursor.transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
         }
         else
         {
             hitting = false;
-            currentAnchorGameObject = null;
+
             cursor.transform.position = transform.position + transform.forward*100;
 
         }

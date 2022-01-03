@@ -28,8 +28,7 @@ public class IslandContact : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (oldLeftHookState != characterMovement.leftHookState && characterMovement.leftHookState == HookState.connected ||
-            oldRightHookState != characterMovement.rightHookState && characterMovement.rightHookState == HookState.connected) 
+        if (oldLeftHookState != characterMovement.leftHookState && characterMovement.leftHookState == HookState.connected) 
         {
             // Hat einen Timer
             if (timer == true)
@@ -43,29 +42,14 @@ public class IslandContact : MonoBehaviour
             }
         }
         oldLeftHookState = characterMovement.leftHookState;
-        oldRightHookState = characterMovement.rightHookState;*/
+        oldRightHookState = characterMovement.rightHookState;
     }
 
     // Bei Kontakt mit Insel
-    public void Kollision(GameObject gameObject)
+    public void OnCollisionEnter(Collision collision)
     {
-        if(gameObject.tag == "grapple") {
-            if (oldLeftHookState != characterMovement.leftHookState && characterMovement.leftHookState == HookState.connected ||
-                oldRightHookState != characterMovement.rightHookState && characterMovement.rightHookState == HookState.connected)
-            {
-                // Hat einen Timer
-                if (timer == true)
-                {
-                    StartCoroutine(ExampleCoroutine());
-                }
-                // Hat einen Hookcount
-                if (hookcount == true)
-                {
-                    HookZaehler();
-                }
-            }
-            oldLeftHookState = characterMovement.leftHookState;
-            oldRightHookState = characterMovement.rightHookState;
+        if(collision.gameObject.tag == "grapple") {
+            
         }
     }
 
