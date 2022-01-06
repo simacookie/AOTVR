@@ -8,6 +8,9 @@ public class Interaction : MonoBehaviour
     GameObject sword_left;
     [SerializeField]
     GameObject sword_right;
+    [SerializeField]
+    Animator animationController;
+  
 
     RaycastHit hitleft;
     bool inZone = false;
@@ -30,12 +33,14 @@ public class Interaction : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         inZone = true;
+        animationController.SetBool("Animation",false);
+        sword_right.SetActive(false);
+        sword_left.SetActive(false);
     }
 
     void OnTriggerStay(Collider other)
     {
-        sword_right.SetActive(false);
-        sword_left.SetActive(false);
+       
 
     }
     void OnTriggerExit(Collider other)
@@ -43,5 +48,6 @@ public class Interaction : MonoBehaviour
         sword_right.SetActive(true);
         sword_left.SetActive(true);
         inZone = false;
+        animationController.SetBool("Animation", true);
     }
 }

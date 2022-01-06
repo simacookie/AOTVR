@@ -229,6 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sword_left: {fileID: 0}
   sword_right: {fileID: 0}
+  animationController: {fileID: 7285581724856595194}
 --- !u!1 &3765220340315931145
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,6 +597,7 @@ GameObject:
   - component: {fileID: 9009616235434715254}
   - component: {fileID: 294386015640633371}
   - component: {fileID: 1822974589640038700}
+  - component: {fileID: 7285581724856595194}
   m_Layer: 0
   m_Name: polySurface13
   m_TagString: Untagged
@@ -666,6 +668,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &7285581724856595194
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036391610914324647}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dcf1a21eabcddcd4fae216aa8ee4f802, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6987115287909332760
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,7 +809,7 @@ Transform:
   m_GameObject: {fileID: 9131046356764297736}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.05794961, y: 1.3592172, z: 0.13128267}
-  m_LocalScale: {x: 2.9283895, y: 2.9283895, z: 2.9283895}
+  m_LocalScale: {x: 2.92839, y: 2.92839, z: 2.92839}
   m_Children:
   - {fileID: 3245581209512215015}
   - {fileID: 3841135465706492510}
@@ -1086,7 +1107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 34b030a18e935c94c8a9b085305cf5df, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34b030a18e935c94c8a9b085305cf5df, type: 3}

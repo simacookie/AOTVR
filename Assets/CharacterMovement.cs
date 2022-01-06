@@ -121,6 +121,9 @@ public class CharacterMovement : MonoBehaviour
 	bool Pfeil3AmPlatz = true;
 	Vector3 objectScaleAlt4;
 	bool Pfeil4AmPlatz = true;
+	[SerializeField]
+	Animator animationController;
+
 
 
 	// Start is called before the first frame update
@@ -260,7 +263,8 @@ public class CharacterMovement : MonoBehaviour
 			Vector3 acceleration = new Vector3(accelerationX, accelerationY, accelerationZ);
 			if (movementVec.sqrMagnitude > speedToMakeSound)
 			{
-				movementAudio.volume = MathMap.Map(speedMag, speedToMakeSound, speedToMakeSound + 1000f, 0.5f, 1f, true);
+				movementAudio.volume = MathMap.Map(speedMag, speedToMakeSound, speedToMakeSound + 30f, 0f, 1f, true);
+				movementAudio.pitch = MathMap.Map(speedMag, speedToMakeSound, speedToMakeSound + 30f, 0.5f, 1.5f, true);
 				if (acceleration.magnitude >= accellerationLastFrame.magnitude && movementAudio.pitch <= 1.5f)
 				{
 					movementAudio.pitch += 0.05f;
@@ -278,6 +282,8 @@ public class CharacterMovement : MonoBehaviour
 		}
 		else
 		{
+
+
 			//turn snapping
 			if (joystickLeft.action.ReadValue<Vector2>().x > -0.1f)
 			{
@@ -324,7 +330,7 @@ public class CharacterMovement : MonoBehaviour
 
 			//Sound
 			Vector3 acceleration = new Vector3(accelerationX, accelerationY, accelerationZ);
-			if (movementVec.sqrMagnitude > speedToMakeSound)
+			/**if (movementVec.sqrMagnitude > speedToMakeSound)
 			{
 				movementAudio.volume = MathMap.Map(speedMag, speedToMakeSound, speedToMakeSound + 1000f, 0.5f, 1f, true);
 				if (acceleration.magnitude >= accellerationLastFrame.magnitude && movementAudio.pitch <= 1.5f)
@@ -340,11 +346,220 @@ public class CharacterMovement : MonoBehaviour
 			{
 				movementAudio.volume = 0;
 				movementAudio.pitch = 1f;
+			}**/
+			if (movementVec.sqrMagnitude > speedToMakeSound)
+			{
+				movementAudio.volume = MathMap.Map(speedMag, speedToMakeSound, speedToMakeSound + 30f, 0f, 1f, true);
+				movementAudio.pitch = MathMap.Map(speedMag, speedToMakeSound, speedToMakeSound + 30f, 0.5f, 1.5f, true);
+				if (acceleration.magnitude >= accellerationLastFrame.magnitude && movementAudio.pitch <= 1.5f)
+				{
+					movementAudio.pitch += 0.05f;
+				}
+				else if (acceleration.magnitude <= accellerationLastFrame.magnitude && movementAudio.pitch >= 0.5f)
+				{
+					movementAudio.pitch -= 0.05f;
+				}
 			}
-			
-			if (cursorLeft.hitting)
+			else if (movementVec.sqrMagnitude < speedToMakeSound)
+			{
+				movementAudio.volume = 0;
+				movementAudio.pitch = 1f;
+			}
+
+
+			//Interacton with riddle
+			if (cursorLeft.hitting )
 			{
 				drehobject = cursorLeft.hit.collider.gameObject;
+
+				switch (drehobject.tag)
+				{
+					case "fragezeichen":
+						drehobject.transform.Rotate(Vector3.up * Time.deltaTime * 35);
+						break;
+					case "pfeil1":
+						// Gets the local scale of game object
+						
+						//try
+						// {
+						if (Pfeil1AmPlatz== true) 
+						{
+							Vector3 objectScale1 = Pfeil1.transform.localScale;
+							objectScaleAlt1 = Pfeil1.transform.localScale;
+							Pfeil1.transform.Translate(0, 0, -0.3f);
+							// Sets the local scale of game object
+							Pfeil1.transform.localScale = new Vector3(objectScale1.x * 1.5f, objectScale1.y * 1.5f, objectScale1.z * 1.5f);
+							Pfeil1AmPlatz = false;
+							Debug.Log("scalieren");
+
+							if (Pfeil2AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil2.transform.localScale;
+								Pfeil2.transform.Translate(0, 0, 0.3f);
+								Pfeil2.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil2AmPlatz = true;
+							}
+							else if (Pfeil3AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil3.transform.localScale;
+								Pfeil3.transform.Translate(0, 0, 0.3f);
+								Pfeil3.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil3AmPlatz = true;
+							}
+							else if (Pfeil4AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil4.transform.localScale;
+								Pfeil4.transform.Translate(0, 0, 0.3f);
+								Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil4AmPlatz = true;
+							}
+						}
+
+						/*}
+						 catch (UnassignedReferenceException ex)
+				{
+							objectScaleAlt = drehobject.transform.localScale;
+							Debug.Log("gesetzt");
+
+						}**/
+						break;
+
+					case "pfeil2":
+
+						
+						if (Pfeil2AmPlatz==true)
+						{
+							Vector3 objectScale2 = Pfeil2.transform.localScale;
+							objectScaleAlt2 = Pfeil2.transform.localScale;
+							Pfeil2.transform.Translate(0, 0, -0.3f);
+							// Sets the local scale of game object
+							Pfeil2.transform.localScale = new Vector3(objectScale2.x * 1.5f, objectScale2.y * 1.5f, objectScale2.z * 1.5f);
+							Pfeil2AmPlatz = false;
+
+							if (Pfeil1AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil1.transform.localScale;
+								Pfeil1.transform.Translate(0, 0, 0.3f);
+								Pfeil1.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil1AmPlatz = true;
+							}
+							else if (Pfeil3AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil3.transform.localScale;
+								Pfeil3.transform.Translate(0, 0, 0.3f);
+								Pfeil3.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil3AmPlatz = true;
+							}
+							else if (Pfeil4AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil4.transform.localScale;
+								Pfeil4.transform.Translate(0, 0, 0.3f);
+								Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil4AmPlatz = true;
+							}
+						}
+						break;
+
+					case "pfeil3":
+
+						
+						if (Pfeil3AmPlatz==true)
+						{
+							Vector3 objectScale3 = Pfeil3.transform.localScale;
+							objectScaleAlt3 = Pfeil3.transform.localScale;
+							Pfeil3.transform.Translate(0, 0, -0.3f);
+							// Sets the local scale of game object
+							Pfeil3.transform.localScale = new Vector3(objectScale3.x * 1.5f, objectScale3.y * 1.5f, objectScale3.z * 1.5f);
+							Pfeil3AmPlatz = false;
+
+							if (Pfeil1AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil1.transform.localScale;
+								Pfeil1.transform.Translate(0, 0, 0.3f);
+								Pfeil1.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil1AmPlatz = true;
+							}
+							else if (Pfeil2AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil2.transform.localScale;
+								Pfeil2.transform.Translate(0, 0, 0.3f);
+								Pfeil2.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil2AmPlatz = true;
+							}
+							else if (Pfeil4AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil4.transform.localScale;
+								Pfeil4.transform.Translate(0, 0, 0.3f);
+								Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil4AmPlatz = true;
+							}
+						}
+						break;
+
+					case "pfeil4":
+
+						if (Pfeil4AmPlatz==true)
+						{
+
+							Vector3 objectScale4 = Pfeil4.transform.localScale;
+							objectScaleAlt4 = Pfeil4.transform.localScale;
+							Pfeil4.transform.Translate(0, 0, -0.3f);
+							// Sets the local scale of game object
+							Pfeil4.transform.localScale = new Vector3(objectScale4.x * 1.5f, objectScale4.y * 1.5f, objectScale4.z * 1.5f);
+							Pfeil4AmPlatz = false;
+
+							if (Pfeil1AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil1.transform.localScale;
+								Pfeil1.transform.Translate(0, 0, 0.3f);
+								Pfeil1.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil1AmPlatz = true;
+							}
+							else if (Pfeil2AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil2.transform.localScale;
+								Pfeil2.transform.Translate(0, 0, 0.3f);
+								Pfeil2.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil2AmPlatz = true;
+							}
+
+							else if (Pfeil3AmPlatz == false)
+							{
+								Vector3 objectScaleAndere = Pfeil3.transform.localScale;
+								Pfeil3.transform.Translate(0, 0, 0.3f);
+								Pfeil3.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil3AmPlatz = true;
+							}
+
+						}
+						break;
+				}
+				/*
+										if (cursorLeft.hit.collider.gameObject.tag == "fragezeichen")
+								{
+									drehobject = cursorLeft.hit.collider.gameObject;
+									//drehobject.transform.Rotate(0,10*Time.deltaTime,0,Space.World);
+									drehobject.transform.Rotate(Vector3.up * Time.deltaTime * 35);
+								}
+								else if (cursorLeft.hit.collider.gameObject.tag == "interactable")
+								{
+
+									if (frameCount%4)
+										//Pfeil1.transform.localScale += new Vector3(1f, 1f, 1f);
+
+
+									//Pfeil3.transform.Translate(0, 0, -5f);
+
+
+
+									// cursorLeft.hit.collider.gameObject;
+									Debug.Log("Hit Left");
+								}
+						   **/
+			}
+			else if (cursorRight.hitting )
+			{
+				drehobject = cursorRight.hit.collider.gameObject;
 
 				switch (drehobject.tag)
 				{
@@ -535,39 +750,9 @@ public class CharacterMovement : MonoBehaviour
 						}
 						break;
 				}
-				/*
-										if (cursorLeft.hit.collider.gameObject.tag == "fragezeichen")
-								{
-									drehobject = cursorLeft.hit.collider.gameObject;
-									//drehobject.transform.Rotate(0,10*Time.deltaTime,0,Space.World);
-									drehobject.transform.Rotate(Vector3.up * Time.deltaTime * 35);
-								}
-								else if (cursorLeft.hit.collider.gameObject.tag == "interactable")
-								{
-
-									if (frameCount%4)
-										//Pfeil1.transform.localScale += new Vector3(1f, 1f, 1f);
-
-
-									//Pfeil3.transform.Translate(0, 0, -5f);
-
-
-
-									// cursorLeft.hit.collider.gameObject;
-									Debug.Log("Hit Left");
-								}
-						   **/
-			}
-			else if (cursorRight.hitting)
-			{
-				if (cursorRight.hit.collider.gameObject.tag == "interactable")
-				{
-					//cursorRight.hit.collider.gameObject;
-					Debug.Log("Hit Right");
-				}
 			}
 
-
+				
 		}
 		
 	}
@@ -575,12 +760,21 @@ public class CharacterMovement : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		
-		if (leftHookState == HookState.pulledIn) anchorLeft.transform.position = ropeSourceLeft.position;
 
-		if (rightHookState == HookState.pulledIn) anchorRight.transform.position = ropeSourceRight.position;
-		//delete?
-		lastPostition = transform.position;
+		/*	if (leftHookState == HookState.pulledIn) anchorLeft.transform.position = ropeSourceLeft.position;
+
+			if (rightHookState == HookState.pulledIn) anchorRight.transform.position = ropeSourceRight.position;
+			//delete?
+			lastPostition = transform.position;
+		**/
+		
+			speedMag = new Vector3(speedX, speedY, speedZ).magnitude;
+			if (leftHookState == HookState.pulledIn) anchorLeft.transform.position = ropeSourceLeft.position;
+
+			if (rightHookState == HookState.pulledIn) anchorRight.transform.position = ropeSourceRight.position;
+			//delete?
+			lastPostition = transform.position;
+		
 	}
 
 	IEnumerator Thrust()
