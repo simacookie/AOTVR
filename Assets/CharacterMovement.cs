@@ -95,6 +95,11 @@ public class CharacterMovement : MonoBehaviour
 	public float speedMag = 0;
 	public Vector3 accellerationLastFrame = new Vector3();
 
+	public AudioSource rightRopeSound;
+	public AudioSource leftRopeSound;
+	public AudioSource rightHookSound;
+	public AudioSource leftHookSound;
+
 	public GameObject currentLeftGameObject;
 	public GameObject currentRightGameObject;
 	public UnityEvent<GameObject> leftHookConnected = new UnityEvent<GameObject>();
@@ -157,6 +162,8 @@ public class CharacterMovement : MonoBehaviour
 				if (!triggerLeftPressed && cursorLeft.hitting)
 				{
 					StartLeftHookThrow();
+					leftHookSound.Play();
+					leftRopeSound.Play();
 				}
 				triggerLeftPressed = true;
 			}
@@ -167,6 +174,8 @@ public class CharacterMovement : MonoBehaviour
 				if (!triggerRightPressed && cursorRight.hitting)
 				{
 					StartRightHookThrow();
+					rightHookSound.Play();
+					rightRopeSound.Play();
 				}
 				triggerRightPressed = true;
 			}
@@ -187,6 +196,7 @@ public class CharacterMovement : MonoBehaviour
 			if (leftHookState == HookState.isFlying)
 			{
 				MoveLeftHook();
+				
 			}
 			if (rightHookState == HookState.isFlying)
 			{
@@ -838,6 +848,8 @@ public class CharacterMovement : MonoBehaviour
 
 		anchorLeft.transform.position = ropeSourceLeft.position;
 		distanceTravelledLeft = 0;
+		leftRopeSound.Pause();
+		leftRopeSound.pitch = 1f;
 		leftHookState = HookState.pulledIn;
 	}
 	private void DisconnectRightHook()
@@ -846,6 +858,8 @@ public class CharacterMovement : MonoBehaviour
 
 		anchorRight.transform.position = ropeSourceRight.position;
 		distanceTravelledRight = 0;
+		rightRopeSound.Pause();
+		rightRopeSound.pitch = 1f;
 		rightHookState = HookState.pulledIn;
 	}
 
@@ -874,6 +888,7 @@ public class CharacterMovement : MonoBehaviour
 		{
 			anchorLeft.transform.position = ropeSourceLeft.position + anchoreMovementVecc + anchorTravelDirection * distanceTravelledLeft;
 			distanceTravelledLeft += anchoreMovementVecc.magnitude;
+			leftRopeSound.pitch = MathMap.Map(Math.Abs(ropeSpeedLeft), 0, 0.6f, 1f, 0.5f);
 		}
 		else
 		{
@@ -896,6 +911,7 @@ public class CharacterMovement : MonoBehaviour
 		{
 			anchorRight.transform.position = ropeSourceRight.position + anchoreMovementVecc + anchorTravelDirection * distanceTravelledRight;
 			distanceTravelledRight += anchoreMovementVecc.magnitude;
+			rightRopeSound.pitch = MathMap.Map(Math.Abs(ropeSpeedRight), 0, 0.6f, 1f, 0.5f);
 		}
 		else
 		{
