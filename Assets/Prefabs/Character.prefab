@@ -2588,9 +2588,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf078ea9e86af134f942bed41004a5de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curve: 5
   leftController: {fileID: 7519415168324537414}
   rightController: {fileID: 7519415170124592765}
-  anchorSpeed: 40
+  anchorSpeed: 200
+  walkspeed: 1
   gripRight: {fileID: 7519415169072850016}
   ropeSourceRight: {fileID: 6530654135947398522}
   ropeSourceLeft: {fileID: 529907643949785593}
@@ -2636,6 +2638,12 @@ MonoBehaviour:
   rightHookConnected:
     m_PersistentCalls:
       m_Calls: []
+  seule: {fileID: 0}
+  Pfeil1: {fileID: 0}
+  Pfeil2: {fileID: 0}
+  Pfeil3: {fileID: 0}
+  Pfeil4: {fileID: 0}
+  animationController: {fileID: 0}
 --- !u!54 &7519415168392789156
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13815,15 +13823,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7a339475b9c03b64fb48fede63435120, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.202
+      value: -0.196
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7a339475b9c03b64fb48fede63435120, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.53
+      value: 0.539
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7a339475b9c03b64fb48fede63435120, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.357687
+      value: -1.453
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7a339475b9c03b64fb48fede63435120, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13984,15 +13992,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5c874d2403fbb864e8949ec9f2de2a44, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.201
+      value: 0.196
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5c874d2403fbb864e8949ec9f2de2a44, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.53
+      value: 0.539
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5c874d2403fbb864e8949ec9f2de2a44, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.357687
+      value: -1.453
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5c874d2403fbb864e8949ec9f2de2a44, type: 3}
       propertyPath: m_LocalRotation.w
