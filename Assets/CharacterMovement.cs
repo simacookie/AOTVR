@@ -283,6 +283,17 @@ public class CharacterMovement : MonoBehaviour
 		else
 		{
 
+			//deactivate hooks
+			if (leftHookState == HookState.connected )
+			{
+				DisconnectLeftHook();
+				UpdateAccelerationVec(1, new Vector3(0, 0, 0));
+			}
+			if (rightHookState == HookState.connected )
+			{
+				DisconnectRightHook();
+				UpdateAccelerationVec(2, new Vector3(0, 0, 0));
+			}
 
 			//turn snapping
 			if (joystickLeft.action.ReadValue<Vector2>().x > -0.1f)
