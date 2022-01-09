@@ -32,10 +32,13 @@ public class Interaction : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        inZone = true;
-        animationController.SetBool("Animation",false);
-        sword_right.SetActive(false);
-        sword_left.SetActive(false);
+        if (other.transform.tag == "Player")
+        {
+            inZone = true;
+            animationController.SetBool("Animation", false);
+            sword_right.SetActive(false);
+            sword_left.SetActive(false);
+        }
     }
 
     void OnTriggerStay(Collider other)
@@ -45,9 +48,12 @@ public class Interaction : MonoBehaviour
     }
     void OnTriggerExit(Collider other)
     {
-        sword_right.SetActive(true);
-        sword_left.SetActive(true);
-        inZone = false;
-        animationController.SetBool("Animation", true);
+        if (other.transform.tag == "Player")
+        {
+            sword_right.SetActive(true);
+            sword_left.SetActive(true);
+            inZone = false;
+            animationController.SetBool("Animation", true);
+        }
     }
 }
