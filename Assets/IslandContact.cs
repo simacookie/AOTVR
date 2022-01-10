@@ -51,7 +51,7 @@ public class IslandContact : MonoBehaviour
     // Bei Kontakt mit Insel
     public void Kollision(GameObject gameObject)
     {
-        if(gameObject.tag == "grapple") {
+        if(gameObject.tag == "grapple" && gameObject == this.gameObject) {
             float amplitude = .5f;
             float duration =1f;
             var device = InputSystem.GetDevice<XRController>(CommonUsages.RightHand);
