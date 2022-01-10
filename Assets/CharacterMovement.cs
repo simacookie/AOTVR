@@ -100,6 +100,7 @@ public class CharacterMovement : MonoBehaviour
 	public AudioSource leftRopeSound;
 	public AudioSource rightHookSound;
 	public AudioSource leftHookSound;
+	public GameObject impactSound;
 
 	public GameObject currentLeftGameObject;
 	public GameObject currentRightGameObject;
@@ -1074,6 +1075,7 @@ public class CharacterMovement : MonoBehaviour
 			leftHookState = HookState.connected;
 			leftHookConnected.Invoke(currentLeftGameObject);
 			distanceTravelledLeft = 0;
+			Instantiate(impactSound, anchorLeft.transform.position, Quaternion.identity);
 		}
 	}
 
@@ -1098,6 +1100,7 @@ public class CharacterMovement : MonoBehaviour
 			rightHookConnected.Invoke(currentRightGameObject);
 
 			distanceTravelledRight = 0;
+			Instantiate(impactSound, anchorRight.transform.position, Quaternion.identity);
 		}
 	}
 	private void OnCollisionEnter(Collision collision)
