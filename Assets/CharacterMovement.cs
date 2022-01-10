@@ -33,7 +33,7 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField]
     Cursor cursorRight;
     CharacterController characterController;
-    const float GRAVITY = 0.15f;
+    float GRAVITY = 0.3f;
     float currentGravity = 0;
     [Header("Physics stats")]
     // bool to make it trigger only the first frame of the press
@@ -618,6 +618,7 @@ public class CharacterMovement : MonoBehaviour
 							Pfeil2.SetActive(false);
 							Pfeil4.SetActive(false);
 							ControllerPfeilUnten.SetBool("UntenSelected", true);
+							GRAVITY = 0.1f;
 
 
 							break;
