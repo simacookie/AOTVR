@@ -102,6 +102,9 @@ public class CharacterMovement : MonoBehaviour
 	public AudioSource leftHookSound;
 	public GameObject impactSound;
 
+	public AudioSource successSound;
+	public AudioSource failureSound;
+
 	public GameObject currentLeftGameObject;
 	public GameObject currentRightGameObject;
 	public UnityEvent<GameObject> leftHookConnected = new UnityEvent<GameObject>();
@@ -653,7 +656,7 @@ public class CharacterMovement : MonoBehaviour
 							Pfeil4.SetActive(false);
 							ControllerPfeilUnten.SetBool("UntenSelected", true);
 							GRAVITY = 0.1f;
-
+							successSound.Play();
 
 							break;
 

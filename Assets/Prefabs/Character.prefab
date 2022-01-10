@@ -2828,6 +2828,8 @@ MonoBehaviour:
   rightHookSound: {fileID: 1046268342}
   leftHookSound: {fileID: 901126527}
   impactSound: {fileID: 5106123048927903085, guid: d0c3d278f90fe354ba0f78dbead39084, type: 3}
+  successSound: {fileID: 0}
+  failureSound: {fileID: 0}
   currentLeftGameObject: {fileID: 0}
   currentRightGameObject: {fileID: 0}
   leftHookConnected:
