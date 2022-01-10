@@ -176,6 +176,7 @@ public class CharacterMovement : MonoBehaviour
 
 		// Test if Player is in riddleZone
 		script = seule.GetComponent<Interaction>();
+
 		if (script.isinZone() == false)
 		{
 
@@ -315,6 +316,20 @@ public class CharacterMovement : MonoBehaviour
 				movementAudio.volume = 0;
 				movementAudio.pitch = 1f;
 			}
+			if (leftHookState != HookState.pulledIn)
+			{
+				leftRopeSound.pitch = MathMap.Map(Math.Abs(ropeSpeedLeft), 0, 0.55f, .7f, 1.1f,true);
+				leftRopeSound.volume = MathMap.Map(Math.Abs(ropeSpeedLeft), 0, 0.5f, 0f, .7f);
+			}
+			else leftRopeSound.volume = 0;
+
+
+			if (rightHookState != HookState.pulledIn)
+			{
+				rightRopeSound.pitch = MathMap.Map(Math.Abs(ropeSpeedRight), 0, 0.55f, .7f, 1.1f,true);
+				rightRopeSound.volume = MathMap.Map(Math.Abs(ropeSpeedRight), 0, 0.5f, 0f, .7f);
+			}
+			else rightRopeSound.volume = 0;
 		}
 		else
 		{
@@ -1052,7 +1067,6 @@ public class CharacterMovement : MonoBehaviour
 		{
 			anchorLeft.transform.position = ropeSourceLeft.position + anchoreMovementVecc + anchorTravelDirection * distanceTravelledLeft;
 			distanceTravelledLeft += anchoreMovementVecc.magnitude;
-			leftRopeSound.pitch = MathMap.Map(Math.Abs(ropeSpeedLeft), 0, 0.6f, 1f, 0.5f);
 		}
 		else
 		{
@@ -1075,7 +1089,6 @@ public class CharacterMovement : MonoBehaviour
 		{
 			anchorRight.transform.position = ropeSourceRight.position + anchoreMovementVecc + anchorTravelDirection * distanceTravelledRight;
 			distanceTravelledRight += anchoreMovementVecc.magnitude;
-			rightRopeSound.pitch = MathMap.Map(Math.Abs(ropeSpeedRight), 0, 0.6f, 1f, 0.5f);
 		}
 		else
 		{
