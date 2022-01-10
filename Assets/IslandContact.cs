@@ -52,12 +52,12 @@ public class IslandContact : MonoBehaviour
     public void Kollision(GameObject gameObject)
     {
         if(gameObject.tag == "grapple") {
-            float amplitude = 0.1f;
+            float amplitude = .5f;
             float duration =1f;
             var device = InputSystem.GetDevice<XRController>(CommonUsages.RightHand);
             var command = UnityEngine.InputSystem.XR.Haptics.SendHapticImpulseCommand.Create(0, amplitude, duration);
             device.ExecuteCommand(ref command);
-            float amplitude2 = 0.1f;
+            float amplitude2 = 0.5f;
             float duration2 = 1f;
             var device2 = InputSystem.GetDevice<XRController>(CommonUsages.LeftHand);
             var command2 = UnityEngine.InputSystem.XR.Haptics.SendHapticImpulseCommand.Create(0, amplitude2, duration2);
@@ -87,6 +87,11 @@ public class IslandContact : MonoBehaviour
     {
         yield return new WaitForSeconds(secondsToFall);
         inselBruch.SetActive(true);
+        characterMovement.DisconnectLeftHook();
+        characterMovement.UpdateAccelerationVec(1, new Vector3(0, 0, 0));
+        characterMovement.DisconnectRightHook();
+        characterMovement.UpdateAccelerationVec(2, new Vector3(0, 0, 0));
+
         inselStandard.SetActive(false);
     }
 

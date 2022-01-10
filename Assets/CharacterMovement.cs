@@ -1006,7 +1006,7 @@ public class CharacterMovement : MonoBehaviour
 		leftHookState = HookState.isFlying;
 	}
 
-	private void DisconnectLeftHook()
+	public void DisconnectLeftHook()
 	{
 		currentLeftGameObject = null;
 
@@ -1016,7 +1016,7 @@ public class CharacterMovement : MonoBehaviour
 		leftRopeSound.pitch = 1f;
 		leftHookState = HookState.pulledIn;
 	}
-	private void DisconnectRightHook()
+	public void DisconnectRightHook()
 	{
 		currentRightGameObject = null;
 
