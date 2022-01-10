@@ -118,16 +118,24 @@ public class CharacterMovement : MonoBehaviour
 	GameObject Pfeil3;
 	[SerializeField]
 	GameObject Pfeil4;
-	Vector3 objectScaleAlt1;
 	bool Pfeil1AmPlatz = true;
-	Vector3 objectScaleAlt2;
 	bool Pfeil2AmPlatz = true;
-	Vector3 objectScaleAlt3;
 	bool Pfeil3AmPlatz = true;
-	Vector3 objectScaleAlt4;
 	bool Pfeil4AmPlatz = true;
 	[SerializeField]
-	Animator animationController;
+	Animator ControllerPfeilOben;
+	[SerializeField]
+	Animator ControllerPfeilRechts;
+	[SerializeField]
+	Animator ControllerPfeilLinks;
+	[SerializeField]
+	Animator ControllerPfeilUnten;
+	[SerializeField]
+	GameObject PfeileGroﬂ;
+	[SerializeField]
+	GameObject Fragezeichen;
+
+
 
 
 
@@ -393,150 +401,191 @@ public class CharacterMovement : MonoBehaviour
 			{
 				drehobject = cursorLeft.hit.collider.gameObject;
 
-				switch (drehobject.tag)
+
+					switch (drehobject.tag)
+					{
+
+						case "pfeil1":
+
+
+							if (Pfeil1AmPlatz == true)
+							{
+								Vector3 objectScale1 = Pfeil1.transform.localScale;
+								Pfeil1.transform.Translate(0, 0, -0.3f);
+								// Sets the local scale of game object
+								Pfeil1.transform.localScale = new Vector3(objectScale1.x * 1.5f, objectScale1.y * 1.5f, objectScale1.z * 1.5f);
+								Pfeil1AmPlatz = false;
+
+								if (Pfeil2AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil2.transform.localScale;
+									Pfeil2.transform.Translate(0, 0, 0.3f);
+									Pfeil2.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil2AmPlatz = true;
+								}
+								else if (Pfeil3AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil3.transform.localScale;
+									Pfeil3.transform.Translate(0, 0, 0.3f);
+									Pfeil3.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil3AmPlatz = true;
+								}
+								else if (Pfeil4AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil4.transform.localScale;
+									Pfeil4.transform.Translate(0, 0, 0.3f);
+									Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil4AmPlatz = true;
+								}
+							}
+
+							/*}
+							 catch (UnassignedReferenceException ex)
+					{
+								objectScaleAlt = drehobject.transform.localScale;
+								Debug.Log("gesetzt");
+
+							}**/
+							break;
+
+						case "pfeil2":
+
+
+							if (Pfeil2AmPlatz == true)
+							{
+								Vector3 objectScale2 = Pfeil2.transform.localScale;
+								Pfeil2.transform.Translate(0, 0, -0.3f);
+								// Sets the local scale of game object
+								Pfeil2.transform.localScale = new Vector3(objectScale2.x * 1.5f, objectScale2.y * 1.5f, objectScale2.z * 1.5f);
+								Pfeil2AmPlatz = false;
+
+								if (Pfeil1AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil1.transform.localScale;
+									Pfeil1.transform.Translate(0, 0, 0.3f);
+									Pfeil1.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil1AmPlatz = true;
+								}
+								else if (Pfeil3AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil3.transform.localScale;
+									Pfeil3.transform.Translate(0, 0, 0.3f);
+									Pfeil3.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil3AmPlatz = true;
+								}
+								else if (Pfeil4AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil4.transform.localScale;
+									Pfeil4.transform.Translate(0, 0, 0.3f);
+									Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil4AmPlatz = true;
+								}
+							}
+							break;
+
+						case "pfeil3":
+
+
+							if (Pfeil3AmPlatz == true)
+							{
+								Vector3 objectScale3 = Pfeil3.transform.localScale;
+
+								Pfeil3.transform.Translate(0, 0, -0.3f);
+								// Sets the local scale of game object
+								Pfeil3.transform.localScale = new Vector3(objectScale3.x * 1.5f, objectScale3.y * 1.5f, objectScale3.z * 1.5f);
+								Pfeil3AmPlatz = false;
+
+								if (Pfeil1AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil1.transform.localScale;
+									Pfeil1.transform.Translate(0, 0, 0.3f);
+									Pfeil1.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil1AmPlatz = true;
+								}
+								else if (Pfeil2AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil2.transform.localScale;
+									Pfeil2.transform.Translate(0, 0, 0.3f);
+									Pfeil2.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil2AmPlatz = true;
+								}
+								else if (Pfeil4AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil4.transform.localScale;
+									Pfeil4.transform.Translate(0, 0, 0.3f);
+									Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil4AmPlatz = true;
+								}
+							}
+							break;
+
+						case "pfeil4":
+
+							if (Pfeil4AmPlatz == true)
+							{
+
+								Vector3 objectScale4 = Pfeil4.transform.localScale;
+
+								Pfeil4.transform.Translate(0, 0, -0.3f);
+								// Sets the local scale of game object
+								Pfeil4.transform.localScale = new Vector3(objectScale4.x * 1.5f, objectScale4.y * 1.5f, objectScale4.z * 1.5f);
+								Pfeil4AmPlatz = false;
+
+								if (Pfeil1AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil1.transform.localScale;
+									Pfeil1.transform.Translate(0, 0, 0.3f);
+									Pfeil1.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil1AmPlatz = true;
+								}
+								else if (Pfeil2AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil2.transform.localScale;
+									Pfeil2.transform.Translate(0, 0, 0.3f);
+									Pfeil2.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil2AmPlatz = true;
+								}
+
+								else if (Pfeil3AmPlatz == false)
+								{
+									Vector3 objectScaleAndere = Pfeil3.transform.localScale;
+									Pfeil3.transform.Translate(0, 0, 0.3f);
+									Pfeil3.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+									Pfeil3AmPlatz = true;
+								}
+
+							}
+							break;
+					}
+				
+				float valueLeft = triggerPressLeft.action.ReadValue<float>();
+				if (valueLeft > 0.5)
 				{
-					case "fragezeichen":
-						drehobject.transform.Rotate(Vector3.up * Time.deltaTime * 35);
-						break;
-					case "pfeil1":
-						// Gets the local scale of game object
-						
-						//try
-						// {
-						if (Pfeil1AmPlatz== true) 
+					Debug.Log(" triggerpressed");
+						switch (drehobject.tag)
 						{
-							Vector3 objectScale1 = Pfeil1.transform.localScale;
-							objectScaleAlt1 = Pfeil1.transform.localScale;
-							Pfeil1.transform.Translate(0, 0, -0.3f);
-							// Sets the local scale of game object
-							Pfeil1.transform.localScale = new Vector3(objectScale1.x * 1.5f, objectScale1.y * 1.5f, objectScale1.z * 1.5f);
-							Pfeil1AmPlatz = false;
-							Debug.Log("scalieren");
-
-							if (Pfeil2AmPlatz == false)
-							{
-								Vector3 objectScaleAndere = Pfeil2.transform.localScale;
-								Pfeil2.transform.Translate(0, 0, 0.3f);
-								Pfeil2.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
-								Pfeil2AmPlatz = true;
-							}
-							else if (Pfeil3AmPlatz == false)
-							{
-								Vector3 objectScaleAndere = Pfeil3.transform.localScale;
-								Pfeil3.transform.Translate(0, 0, 0.3f);
-								Pfeil3.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
-								Pfeil3AmPlatz = true;
-							}
-							else if (Pfeil4AmPlatz == false)
-							{
-								Vector3 objectScaleAndere = Pfeil4.transform.localScale;
-								Pfeil4.transform.Translate(0, 0, 0.3f);
-								Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
-								Pfeil4AmPlatz = true;
-							}
-						}
-
-						/*}
-						 catch (UnassignedReferenceException ex)
-				{
-							objectScaleAlt = drehobject.transform.localScale;
-							Debug.Log("gesetzt");
-
-						}**/
-						break;
-
-					case "pfeil2":
-
-						
-						if (Pfeil2AmPlatz==true)
-						{
-							Vector3 objectScale2 = Pfeil2.transform.localScale;
-							objectScaleAlt2 = Pfeil2.transform.localScale;
-							Pfeil2.transform.Translate(0, 0, -0.3f);
-							// Sets the local scale of game object
-							Pfeil2.transform.localScale = new Vector3(objectScale2.x * 1.5f, objectScale2.y * 1.5f, objectScale2.z * 1.5f);
-							Pfeil2AmPlatz = false;
-
-							if (Pfeil1AmPlatz == false)
-							{
+							case "pfeil1":
+							if (!Pfeil1AmPlatz)
+                            {
 								Vector3 objectScaleAndere = Pfeil1.transform.localScale;
 								Pfeil1.transform.Translate(0, 0, 0.3f);
 								Pfeil1.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
 								Pfeil1AmPlatz = true;
+								Debug.Log(" Animation sollte Starten");
 							}
-							else if (Pfeil3AmPlatz == false)
-							{
-								Vector3 objectScaleAndere = Pfeil3.transform.localScale;
-								Pfeil3.transform.Translate(0, 0, 0.3f);
-								Pfeil3.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
-								Pfeil3AmPlatz = true;
-							}
-							else if (Pfeil4AmPlatz == false)
-							{
-								Vector3 objectScaleAndere = Pfeil4.transform.localScale;
-								Pfeil4.transform.Translate(0, 0, 0.3f);
-								Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
-								Pfeil4AmPlatz = true;
-							}
-						}
-						break;
 
-					case "pfeil3":
+							Fragezeichen.SetActive(false);
+							PfeileGroﬂ.SetActive(false);
+							Pfeil2.SetActive(false);
+							Pfeil3.SetActive(false);
+							Pfeil4.SetActive(false);
+							ControllerPfeilOben.SetBool("ObenSelected", true);
 
-						
-						if (Pfeil3AmPlatz==true)
-						{
-							Vector3 objectScale3 = Pfeil3.transform.localScale;
-							objectScaleAlt3 = Pfeil3.transform.localScale;
-							Pfeil3.transform.Translate(0, 0, -0.3f);
-							// Sets the local scale of game object
-							Pfeil3.transform.localScale = new Vector3(objectScale3.x * 1.5f, objectScale3.y * 1.5f, objectScale3.z * 1.5f);
-							Pfeil3AmPlatz = false;
 
-							if (Pfeil1AmPlatz == false)
-							{
-								Vector3 objectScaleAndere = Pfeil1.transform.localScale;
-								Pfeil1.transform.Translate(0, 0, 0.3f);
-								Pfeil1.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
-								Pfeil1AmPlatz = true;
-							}
-							else if (Pfeil2AmPlatz == false)
-							{
-								Vector3 objectScaleAndere = Pfeil2.transform.localScale;
-								Pfeil2.transform.Translate(0, 0, 0.3f);
-								Pfeil2.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
-								Pfeil2AmPlatz = true;
-							}
-							else if (Pfeil4AmPlatz == false)
-							{
-								Vector3 objectScaleAndere = Pfeil4.transform.localScale;
-								Pfeil4.transform.Translate(0, 0, 0.3f);
-								Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
-								Pfeil4AmPlatz = true;
-							}
-						}
-						break;
+							break;
 
-					case "pfeil4":
-
-						if (Pfeil4AmPlatz==true)
-						{
-
-							Vector3 objectScale4 = Pfeil4.transform.localScale;
-							objectScaleAlt4 = Pfeil4.transform.localScale;
-							Pfeil4.transform.Translate(0, 0, -0.3f);
-							// Sets the local scale of game object
-							Pfeil4.transform.localScale = new Vector3(objectScale4.x * 1.5f, objectScale4.y * 1.5f, objectScale4.z * 1.5f);
-							Pfeil4AmPlatz = false;
-
-							if (Pfeil1AmPlatz == false)
-							{
-								Vector3 objectScaleAndere = Pfeil1.transform.localScale;
-								Pfeil1.transform.Translate(0, 0, 0.3f);
-								Pfeil1.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
-								Pfeil1AmPlatz = true;
-							}
-							else if (Pfeil2AmPlatz == false)
+						case "pfeil2":
+							if (!Pfeil2AmPlatz)
 							{
 								Vector3 objectScaleAndere = Pfeil2.transform.localScale;
 								Pfeil2.transform.Translate(0, 0, 0.3f);
@@ -544,7 +593,18 @@ public class CharacterMovement : MonoBehaviour
 								Pfeil2AmPlatz = true;
 							}
 
-							else if (Pfeil3AmPlatz == false)
+							Fragezeichen.SetActive(false);
+							PfeileGroﬂ.SetActive(false);
+							Pfeil1.SetActive(false);
+							Pfeil3.SetActive(false);
+							Pfeil4.SetActive(false);
+							ControllerPfeilRechts.SetBool("RechtsSelected", true);
+
+
+							break;
+
+						case "pfeil3":
+							if (!Pfeil3AmPlatz)
 							{
 								Vector3 objectScaleAndere = Pfeil3.transform.localScale;
 								Pfeil3.transform.Translate(0, 0, 0.3f);
@@ -552,10 +612,36 @@ public class CharacterMovement : MonoBehaviour
 								Pfeil3AmPlatz = true;
 							}
 
-						}
-						break;
-				}
-				/*
+							Fragezeichen.SetActive(false);
+							PfeileGroﬂ.SetActive(false);
+							Pfeil1.SetActive(false);
+							Pfeil2.SetActive(false);
+							Pfeil4.SetActive(false);
+							ControllerPfeilUnten.SetBool("UntenSelected", true);
+
+
+							break;
+
+						case "pfeil4":
+							if (!Pfeil4AmPlatz)
+							{
+								Vector3 objectScaleAndere = Pfeil4.transform.localScale;
+								Pfeil4.transform.Translate(0, 0, 0.3f);
+								Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil4AmPlatz = true;
+							}
+
+							Fragezeichen.SetActive(false);
+							PfeileGroﬂ.SetActive(false);
+							Pfeil1.SetActive(false);
+							Pfeil2.SetActive(false);
+							Pfeil3.SetActive(false);
+							ControllerPfeilLinks.SetBool("LinksSelected", true);
+
+
+							break;
+					}
+					}/*
 										if (cursorLeft.hit.collider.gameObject.tag == "fragezeichen")
 								{
 									drehobject = cursorLeft.hit.collider.gameObject;
@@ -584,30 +670,17 @@ public class CharacterMovement : MonoBehaviour
 
 				switch (drehobject.tag)
 				{
-					case "fragezeichen":
-						drehobject.transform.Rotate(Vector3.up * Time.deltaTime * 35);
-						break;
+
 					case "pfeil1":
-						// Gets the local scale of game object
-						Vector3 objectScale1 = Pfeil1.transform.localScale;
-						//try
-						// {
-						if (objectScale1 != objectScaleAlt1 && objectScaleAlt1 != new Vector3())
+
+
+						if (Pfeil1AmPlatz == true)
 						{
-							// Sets the local scale of game object back to normal
-							Pfeil1.transform.Translate(0, 0, 0.3f);
-							Pfeil1.transform.localScale = new Vector3(objectScale1.x / 1.5f, objectScale1.y / 1.5f, objectScale1.z / 1.5f);
-							Pfeil1AmPlatz = true;
-							Debug.Log("zur¸cksetzen");
-						}
-						else
-						{
-							objectScaleAlt1 = Pfeil1.transform.localScale;
+							Vector3 objectScale1 = Pfeil1.transform.localScale;
 							Pfeil1.transform.Translate(0, 0, -0.3f);
 							// Sets the local scale of game object
 							Pfeil1.transform.localScale = new Vector3(objectScale1.x * 1.5f, objectScale1.y * 1.5f, objectScale1.z * 1.5f);
 							Pfeil1AmPlatz = false;
-							Debug.Log("scalieren");
 
 							if (Pfeil2AmPlatz == false)
 							{
@@ -643,18 +716,10 @@ public class CharacterMovement : MonoBehaviour
 
 					case "pfeil2":
 
-						Vector3 objectScale2 = Pfeil2.transform.localScale;
-						if (objectScale2 != objectScaleAlt2 && objectScaleAlt2 != new Vector3())
-						{
-							// Sets the local scale of game object back to normal
-							Pfeil2.transform.Translate(0, 0, 0.3f);
-							Pfeil2.transform.localScale = new Vector3(objectScale2.x / 1.5f, objectScale2.y / 1.5f, objectScale2.z / 1.5f);
-							Pfeil2AmPlatz = true;
 
-						}
-						else
+						if (Pfeil2AmPlatz == true)
 						{
-							objectScaleAlt2 = Pfeil2.transform.localScale;
+							Vector3 objectScale2 = Pfeil2.transform.localScale;
 							Pfeil2.transform.Translate(0, 0, -0.3f);
 							// Sets the local scale of game object
 							Pfeil2.transform.localScale = new Vector3(objectScale2.x * 1.5f, objectScale2.y * 1.5f, objectScale2.z * 1.5f);
@@ -686,18 +751,11 @@ public class CharacterMovement : MonoBehaviour
 
 					case "pfeil3":
 
-						Vector3 objectScale3 = Pfeil3.transform.localScale;
-						if (objectScale3 != objectScaleAlt3 && objectScaleAlt3 != new Vector3())
-						{
-							// Sets the local scale of game object back to normal
-							Pfeil3.transform.Translate(0, 0, 0.3f);
-							Pfeil3.transform.localScale = new Vector3(objectScale3.x / 1.5f, objectScale3.y / 1.5f, objectScale3.z / 1.5f);
-							Pfeil3AmPlatz = true;
 
-						}
-						else
+						if (Pfeil3AmPlatz == true)
 						{
-							objectScaleAlt3 = Pfeil3.transform.localScale;
+							Vector3 objectScale3 = Pfeil3.transform.localScale;
+
 							Pfeil3.transform.Translate(0, 0, -0.3f);
 							// Sets the local scale of game object
 							Pfeil3.transform.localScale = new Vector3(objectScale3.x * 1.5f, objectScale3.y * 1.5f, objectScale3.z * 1.5f);
@@ -729,17 +787,11 @@ public class CharacterMovement : MonoBehaviour
 
 					case "pfeil4":
 
-						Vector3 objectScale4 = Pfeil4.transform.localScale;
-						if (objectScale4 != objectScaleAlt4 && objectScaleAlt4 != new Vector3())
+						if (Pfeil4AmPlatz == true)
 						{
-							// Sets the local scale of game object back to normal
-							Pfeil4.transform.Translate(0, 0, 0.3f);
-							Pfeil4.transform.localScale = new Vector3(objectScale4.x / 1.5f, objectScale4.y / 1.5f, objectScale4.z / 1.5f);
-							Pfeil4AmPlatz = true;
-						}
-						else
-						{
-							objectScaleAlt4 = Pfeil4.transform.localScale;
+
+							Vector3 objectScale4 = Pfeil4.transform.localScale;
+
 							Pfeil4.transform.Translate(0, 0, -0.3f);
 							// Sets the local scale of game object
 							Pfeil4.transform.localScale = new Vector3(objectScale4.x * 1.5f, objectScale4.y * 1.5f, objectScale4.z * 1.5f);
@@ -771,6 +823,87 @@ public class CharacterMovement : MonoBehaviour
 						}
 						break;
 				}
+				float valueRight = triggerPressRight.action.ReadValue<float>();
+				if (valueRight > 0.5)
+				{
+					Debug.Log(" triggerpressed");
+					switch (drehobject.tag)
+					{
+						case "pfeil1":
+							if (!Pfeil1AmPlatz)
+							{
+								Vector3 objectScaleAndere = Pfeil1.transform.localScale;
+								Pfeil1.transform.Translate(0, 0, 0.3f);
+								Pfeil1.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil1AmPlatz = true;
+								Debug.Log(" Animation sollte Starten");
+							}
+
+							Fragezeichen.SetActive(false);
+							PfeileGroﬂ.SetActive(false);
+							Pfeil2.SetActive(false);
+							Pfeil3.SetActive(false);
+							Pfeil4.SetActive(false);
+							ControllerPfeilOben.SetBool("ObenSelected", true);
+
+
+							break;
+
+						case "pfeil2":
+							if (!Pfeil2AmPlatz)
+							{
+								Vector3 objectScaleAndere = Pfeil2.transform.localScale;
+								Pfeil2.transform.Translate(0, 0, 0.3f);
+								Pfeil2.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil2AmPlatz = true;
+							}
+
+							Fragezeichen.SetActive(false);
+							PfeileGroﬂ.SetActive(false);
+							Pfeil1.SetActive(false);
+							Pfeil3.SetActive(false);
+							Pfeil4.SetActive(false);
+
+
+							break;
+
+						case "pfeil3":
+							if (!Pfeil3AmPlatz)
+							{
+								Vector3 objectScaleAndere = Pfeil3.transform.localScale;
+								Pfeil3.transform.Translate(0, 0, 0.3f);
+								Pfeil3.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil3AmPlatz = true;
+							}
+
+							Fragezeichen.SetActive(false);
+							PfeileGroﬂ.SetActive(false);
+							Pfeil1.SetActive(false);
+							Pfeil2.SetActive(false);
+							Pfeil4.SetActive(false);
+
+
+							break;
+
+						case "pfeil4":
+							if (!Pfeil4AmPlatz)
+							{
+								Vector3 objectScaleAndere = Pfeil4.transform.localScale;
+								Pfeil4.transform.Translate(0, 0, 0.3f);
+								Pfeil4.transform.localScale = new Vector3(objectScaleAndere.x / 1.5f, objectScaleAndere.y / 1.5f, objectScaleAndere.z / 1.5f);
+								Pfeil4AmPlatz = true;
+							}
+
+							Fragezeichen.SetActive(false);
+							PfeileGroﬂ.SetActive(false);
+							Pfeil1.SetActive(false);
+							Pfeil2.SetActive(false);
+							Pfeil3.SetActive(false);
+
+
+							break;
+					}
+				}
 			}
 
 				
@@ -778,6 +911,7 @@ public class CharacterMovement : MonoBehaviour
 		
 	}
 
+	
 
 	private void LateUpdate()
 	{
