@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 public class IslandContact : MonoBehaviour
 {
@@ -50,6 +52,17 @@ public class IslandContact : MonoBehaviour
     public void Kollision(GameObject gameObject)
     {
         if(gameObject.tag == "grapple") {
+            float amplitude = 0.1f;
+            float duration =1f;
+            var device = InputSystem.GetDevice<XRController>(CommonUsages.RightHand);
+            var command = UnityEngine.InputSystem.XR.Haptics.SendHapticImpulseCommand.Create(0, amplitude, duration);
+            device.ExecuteCommand(ref command);
+            float amplitude2 = 0.1f;
+            float duration2 = 1f;
+            var device2 = InputSystem.GetDevice<XRController>(CommonUsages.LeftHand);
+            var command2 = UnityEngine.InputSystem.XR.Haptics.SendHapticImpulseCommand.Create(0, amplitude2, duration2);
+            device2.ExecuteCommand(ref command2);
+
             if (oldLeftHookState != characterMovement.leftHookState && characterMovement.leftHookState == HookState.connected ||
                 oldRightHookState != characterMovement.rightHookState && characterMovement.rightHookState == HookState.connected)
             {

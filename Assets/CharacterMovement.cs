@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -135,6 +136,7 @@ public class CharacterMovement : MonoBehaviour
 	[SerializeField]
 	GameObject Fragezeichen;
 
+	CollisionFlags oldabove;
 
 
 
@@ -156,6 +158,22 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+		// collision rumble
+		if (speedMag > 10 &&  (characterController.collisionFlags == CollisionFlags.Above && oldabove != CollisionFlags.Above || characterController.collisionFlags == CollisionFlags.Sides && oldabove != CollisionFlags.Sides || characterController.collisionFlags == CollisionFlags.Below && oldabove != CollisionFlags.Below))
+		{
+			float amplitude = 0.1f;
+			float duration = .2f;
+			var device = InputSystem.GetDevice<XRController>(CommonUsages.RightHand);
+			var command = UnityEngine.InputSystem.XR.Haptics.SendHapticImpulseCommand.Create(0, amplitude, duration);
+			device.ExecuteCommand(ref command);
+			float amplitude2 = 0.1f;
+			float duration2 = .2f;
+			var device2 = InputSystem.GetDevice<XRController>(CommonUsages.LeftHand);
+			var command2 = UnityEngine.InputSystem.XR.Haptics.SendHapticImpulseCommand.Create(0, amplitude2, duration2);
+			device2.ExecuteCommand(ref command2);
+		}
+		oldabove = characterController.collisionFlags;
+
 		// Test if Player is in riddleZone
 		script = seule.GetComponent<Interaction>();
 		if (script.isinZone() == false)
@@ -1069,7 +1087,10 @@ public class CharacterMovement : MonoBehaviour
 			distanceTravelledRight = 0;
 		}
 	}
+	private void OnCollisionEnter(Collision collision)
+	{
 
+	}
 	private void CalculateNewSpeed()
     {
 		speedX = characterController.velocity.x;

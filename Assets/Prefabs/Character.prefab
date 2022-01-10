@@ -2864,7 +2864,12 @@ MonoBehaviour:
   Pfeil2: {fileID: 0}
   Pfeil3: {fileID: 0}
   Pfeil4: {fileID: 0}
-  animationController: {fileID: 0}
+  ControllerPfeilOben: {fileID: 0}
+  ControllerPfeilRechts: {fileID: 0}
+  ControllerPfeilLinks: {fileID: 0}
+  ControllerPfeilUnten: {fileID: 0}
+  "PfeileGro\xDF": {fileID: 0}
+  Fragezeichen: {fileID: 0}
 --- !u!54 &7519415168392789156
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8806,7 +8811,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 93c5a717506d864409529d38ca0b614f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -13424,7 +13429,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 93c5a717506d864409529d38ca0b614f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
